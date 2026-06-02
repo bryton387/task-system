@@ -23,6 +23,12 @@ def mark_completed(task_name):
         return {"success": False, "message": "Task not found"}
 
     search_name = task_name.strip().lower()
+    if search_name.isdigit():
+        task_number = int(search_name)
+        if 1 <= task_number <= len(tasks):
+            tasks[task_number - 1]["completed"] = True
+            return {"success": True, "message": "Task marked as complete!"}
+
     for task in tasks:
         if task["name"].lower() == search_name:
             task["completed"] = True

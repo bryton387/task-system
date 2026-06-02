@@ -6,10 +6,14 @@ except ModuleNotFoundError:
     tasks = []
 
     def validate_task_name(name):
-        return isinstance(name, str) and len(name.strip()) > 0
+        if not isinstance(name, str) or len(name.strip()) == 0:
+            return False
+        return True
 
     def validate_priority(priority):
-        return isinstance(priority, str) and len(priority.strip()) > 0
+        if not isinstance(priority, str) or len(priority.strip()) == 0:
+            return False
+        return True
 
     def validate_task_data(name, priority, due_date):
         errors = []
@@ -51,6 +55,12 @@ except ModuleNotFoundError:
             return {"success": False, "message": "Task not found"}
 
         search_name = task_name.strip().lower()
+        if search_name.isdigit():
+            task_number = int(search_name)
+            if 1 <= task_number <= len(tasks):
+                tasks[task_number - 1]["completed"] = True
+                return {"success": True, "message": "Task marked as complete!"}
+
         for task in tasks:
             if task["name"].lower() == search_name:
                 task["completed"] = True
@@ -108,6 +118,8 @@ def main():
         
         elif choice == "4":
             progress = get_progress()
+            if progress["total"] == 0:
+                print("No tasks currently")
             print(f"Total tasks: {progress['total']}")
             print(f"Completed: {progress['completed']}")
             print(f"Pending: {progress['pending']}")

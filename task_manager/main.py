@@ -37,6 +37,8 @@ def main():
 
         elif choice == "4":
             progress = get_progress()
+            if progress["total"] == 0:
+                print("No tasks currently")
             print(f"Total tasks: {progress['total']}")
             print(f"Completed: {progress['completed']}")
             print(f"Pending: {progress['pending']}")
