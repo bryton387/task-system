@@ -1,13 +1,36 @@
-try:
-    from .validation import validate_task_data
-except ImportError:
-    import os
-    import sys
-
-    sys.path.append(os.path.dirname(__file__))
-    from validation import validate_task_data
+from datetime import datetime
 
 tasks = []
+
+def validate_task_name(name):
+    if not isinstance(name, str) or len(name.strip()) == 0:
+        return False
+    return True
+
+def validate_priority(priority):
+    if not isinstance(priority, str) or len(priority.strip()) == 0:
+        return False
+    return True
+
+def validate_task_data(name, priority, due_date):
+    errors = []
+    if not validate_task_name(name):
+        errors.append("Task name is required")
+    if not validate_priority(priority):
+        errors.append("Priority is required")
+
+    if due_date is None:
+        due_date = ""
+
+    if due_date:
+        if not isinstance(due_date, str):
+            errors.append("Due date must be in YYYY-MM-DD format")
+            return errors
+        try:
+            datetime.strptime(due_date.strip(), "%Y-%m-%d")
+        except ValueError:
+            errors.append("Due date must be in YYYY-MM-DD format")
+    return errors
 
 def add_task(name, priority, due_date=""):
     errors = validate_task_data(name, priority, due_date)
