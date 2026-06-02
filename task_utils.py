@@ -11,12 +11,12 @@ def add_task(name, priority, due_date=""):
     
     task = {
         "name": name.strip(),
-        "priority": priority.strip().lower(),
+        "priority": priority.strip(),
         "due_date": clean_due_date,
         "completed": False
     }
     tasks.append(task)
-    return {"success": True, "message": "Task added successfully"}
+    return {"success": True, "message": "Task added successfully!"}
 
 def mark_completed(task_name):
     if not isinstance(task_name, str):
@@ -26,7 +26,7 @@ def mark_completed(task_name):
     for task in tasks:
         if task["name"].lower() == search_name:
             task["completed"] = True
-            return {"success": True, "message": "Task marked as complete"}
+            return {"success": True, "message": "Task marked as complete!"}
     
     return {"success": False, "message": "Task not found"}
 

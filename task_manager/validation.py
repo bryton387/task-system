@@ -6,8 +6,7 @@ def validate_task_name(name):
     return True
 
 def validate_priority(priority):
-    valid_priorities = ["low", "medium", "high"]
-    if not isinstance(priority, str) or priority.strip().lower() not in valid_priorities:
+    if not isinstance(priority, str) or len(priority.strip()) == 0:
         return False
     return True
 
@@ -16,7 +15,7 @@ def validate_task_data(name, priority, due_date):
     if not validate_task_name(name):
         errors.append("Task name is required")
     if not validate_priority(priority):
-        errors.append("Priority must be low, medium, or high")
+        errors.append("Priority is required")
 
     if due_date is None:
         due_date = ""
